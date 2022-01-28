@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import { useChatContext } from "stream-chat-react";
 import { SearchIcon } from "../assets";
 function ChannelSearch() {
-  const [query, setQuery] = useState();
+  const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const getChannels = async (text) => {
     try {
       //TODO:fetch channels
+
     } catch (error) {
       setQuery("");
     }

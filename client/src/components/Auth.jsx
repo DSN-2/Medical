@@ -3,19 +3,18 @@ import Cookies from "universal-cookie";
 import axios from "axios";
 import signinImage from "../assets/signup.jpg";
 
-const cookies =new Cookies(); 
-const initialState={
-  fullName: '',
-  username: '',
-  password: '',
-  confirmedPassword: '',
-  phoneNumber: '',
-  avatarURL: '',
-}
-
+const cookies = new Cookies();
+const initialState = {
+  fullName: "",
+  username: "",
+  password: "",
+  confirmedPassword: "",
+  phoneNumber: "",
+  avatarURL: "",
+};
 
 const Auth = () => {
-  const [form,setForm]= useState(initialState);
+  const [form, setForm] = useState(initialState);
 
   const [isSignup, setIsSignup] = useState(true);
   const handleChange = (e) => {
@@ -24,29 +23,35 @@ const Auth = () => {
       [e.target.name]: e.target.value,
     });
   };
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const {fullName,username, password,  phoneNumber, avatarURL} = form;
-    const URL = 'http://localhost:5000/auth';
-    const {data:{token,userId,hashedPassword}} = await axios.post(`${URL}/${isSignup?'signup':'login'}`,{
-      username,password,fullName,phoneNumber,avatarURL,
-    })
-    cookies.set('token',token,)
-    cookies.set('username',username)
-    cookies.set('fullName',fullName)
-    cookies.set('userId',userId)
-    
-    if(isSignup){
-      cookies.set('phoneNumber',phoneNumber)
-      cookies.set('avatarURL',avatarURL)
-      cookies.set('hashedPassword',hashedPassword)
+    const { fullName, username, password, phoneNumber, avatarURL } = form;
+    const URL = "http://localhost:5000/auth";
+    const {
+      data: { token, userId, hashedPassword },
+    } = await axios.post(`${URL}/${isSignup ? "signup" : "login"}`, {
+      username,
+      password,
+      fullName,
+      phoneNumber,
+      avatarURL,
+    });
+    cookies.set("token", token);
+    cookies.set("username", username);
+    cookies.set("fullName", fullName);
+    cookies.set("userId", userId);
+  
+    if (isSignup) {
+      cookies.set("phoneNumber", phoneNumber);
+      cookies.set("avatarURL", avatarURL);
+      cookies.set("hashedPassword", hashedPassword);
     }
     window.location.reload();
-  }
+  };
   const switchMode = () => {
-    setIsSignup((prevIsSignup) => !prevIsSignup); 
-  }
-  
+    setIsSignup((prevIsSignup) => !prevIsSignup);
+  };
+
   return (
     <div className="auth__form-container">
       <div className="auth__form-container_fields">
@@ -84,7 +89,6 @@ const Auth = () => {
                 <input
                   type="text"
                   name="phonenumber"
-                 
                   placeholder="Phone Number"
                   onChange={handleChange}
                   required
@@ -105,24 +109,23 @@ const Auth = () => {
                 />
               </div>
             )}
-              <div className="auth__form-container_fields-content_input">
-                <label htmlFor="password">Password</label>
-                <input
-                  type="password"
-                  name="password"
-                  id="password"
-                  placeholder="Password"
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              {isSignup && (
+            <div className="auth__form-container_fields-content_input">
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                onChange={handleChange}
+                required
+              />
+            </div>
+            {isSignup && (
               <div className="auth__form-container_fields-content_input">
                 <label htmlFor="confirmedPassword">Confirmed Password</label>
                 <input
                   type="password"
                   name="confirmedPassword"
-                 
                   placeholder="Confirmed Password"
                   onChange={handleChange}
                   required
@@ -134,19 +137,17 @@ const Auth = () => {
             </div>
           </form>
           <div className="auth__form-container_fields-account">
-              <p>
-                {isSignup ? "Already have an account?" : "Don't have an account?"}
-                <span onClick={switchMode}>
-                    {isSignup ? "Sign In" : "Sign Up"}
-                </span>
-              </p>
-                
+            <p>
+              {isSignup ? "Already have an account?" : "Don't have an account?"}
+              <span onClick={switchMode}>
+                {isSignup ? "Sign In" : "Sign Up"}
+              </span>
+            </p>
           </div>
         </div>
       </div>
       <div className="auth__form-container_image">
         <img src={signinImage} alt="sign in" />
-
       </div>
     </div>
   );
