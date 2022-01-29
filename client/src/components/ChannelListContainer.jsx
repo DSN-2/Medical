@@ -5,6 +5,7 @@ import Cookies from "universal-cookie";
 import ChannelSearch from "./ChannelSearch";
 import HospitalIcon from "../assets/hospital.png";
 import LogoutIcon from "../assets/logout.png";
+import video from  "../assets/video.jpeg";
 import TeamChannelList from "./TeamChannelList";
 import  TeamChannelPreview  from "./TeamChannelPreview";
 // const cookies = new Cookies();
@@ -142,18 +143,31 @@ import  TeamChannelPreview  from "./TeamChannelPreview";
 
 const cookies = new Cookies();
 
-const SideBar = ({ logout }) => (
+const SideBar = ({ logout ,videoClick}) => (
     <div className="channel-list__sidebar">
         <div className="channel-list__sidebar__icon1">
             <div className="icon1__inner">
                 <img src={HospitalIcon} alt="Hospital" width="30" />
             </div>
+
+
         </div>
         <div className="channel-list__sidebar__icon2">
             <div className="icon1__inner" onClick={logout}>
                 <img src={LogoutIcon} alt="Logout" width="30" />
             </div>
         </div>
+
+
+        <div className="channel-list__sidebar__icon2">
+            <div className="icon1__inner" onClick={videoClick}>
+                <img src={video} alt="Logout" width="30" />
+            </div>
+        </div>
+
+
+
+
     </div>
 );
 
@@ -186,11 +200,19 @@ const ChannelListContent = ({ isCreating, setIsCreating, setCreateType, setIsEdi
         window.location.reload();
     }
 
+    const videoClick=()=>{
+        window.open('https://video-chat-2022.netlify.app/')
+    }
+
     const filters = { members: { $in: [client.userID] } };
 
     return (
         <>
-            <SideBar logout={logout} />
+            <SideBar logout={logout} 
+            
+            videoClick={videoClick}
+            
+            />
             <div className="channel-list__list__wrapper">
                 <CompanyHeader />
                 <ChannelSearch setToggleContainer={setToggleContainer} />
